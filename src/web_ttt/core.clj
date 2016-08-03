@@ -1,7 +1,7 @@
 (ns web-ttt.core
-  (:gen-class))
+  (:gen-class)
+  (:require [matts-clojure-ttt.game :as game]))
 
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (game/-main))
