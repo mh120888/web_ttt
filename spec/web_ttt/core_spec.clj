@@ -29,6 +29,22 @@
 
       (should-contain "Do you want to play a game?" (.getFormattedResponse app-response))))
 
+  (context "POST /"
+    (it "returns a 405"
+      (.setRequestLine request "POST / HTTP/1.1")
+
+      (def app-response (.getResponse basic-app request new-response))
+
+      (should-contain "405" (.getFormattedResponse app-response))))
+
+  (context "GET /new-game"
+    (it "returns a 200"
+      (.setRequestLine request "GET /new-game HTTP/1.1")
+
+      (def app-response (.getResponse basic-app request new-response))
+
+      (should-contain "200" (.getFormattedResponse app-response))))
+
   (context "GET /(any-other-path)"
     (it "returns a 404"
       (.setRequestLine request "GET /fakepath HTTP/1.1")
