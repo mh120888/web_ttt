@@ -14,7 +14,7 @@
 
 (def basic-app (reify app.Application
   (getResponse [this request response]
-    (app/getResponse request response))))
+    (app/get-response request response))))
 
 (defn -main
   [& args]
