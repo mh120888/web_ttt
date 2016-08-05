@@ -12,8 +12,11 @@
 (def basic-app (reify app.Application
   (getResponse [this request response]
     (let [response (.getNewResponse message-factory)]
+      (.setHTTPVersion response "HTTP/1.1")
       (if (= "/" (.getPath request))
-        (.setStatus response 200)
+        (do (.setStatus response 200)
+            (.addHeader response "Content-Type" "text/html; charset=utf-8")
+            (.setBody response (.getBytes (slurp "resources/index.html"))))
         (.setStatus response 404))
       response))))
 
