@@ -7,5 +7,49 @@
 <body>
   <h1>Clojure Tic Tac Toe</h1>
   <p>Do you want to play a game?</p>
+  <fieldset>
+  <p>Do you want to go first?</p>
+  <label><input name='gofirst' type='radio' value='y' checked>Yes</label>
+  <label><input name='gofirst' type='radio' value='n'>No</label>
+  <p>Choose your marker</p>
+  <label><input name='marker' type='radio' value='x' checked>X</label>
+  <label><input name='marker' type='radio' value='o'>O</label>
+  <p>Choose your board size</p>
+  <label><input name='size' type='radio' value='3' checked>3x3</label>
+  <label><input name='size' type='radio' value='4'>4x4</label>
+  <a href="/new-game?marker=x&gofirst=y&size=3" class='new-game-link'>Play Game</a>
+  </fieldset>
+    <script>
+    var newGameSetupBehavior = (function() {
+
+      var newGameLink = document.querySelector(".new-game-link");
+      var inputs = document.querySelectorAll("input");
+
+      function bindEventHandler() {
+        for (i=0; i<inputs.length; i++) {
+          inputs[i].addEventListener("change", handleInputChange);
+        }
+      }
+
+      function handleInputChange() {
+        var name = this.getAttribute("name");
+        var value = this.getAttribute("value");
+        updateLink(name, value);
+      }
+
+      function updateLink(name, value) {
+        var path = newGameLink.getAttribute("href");
+        var regex = new RegExp(name + "=.");
+        var newPath = path.replace(regex, name + "=" + value);
+        newGameLink.setAttribute("href", newPath);
+      }
+
+      return {
+        bindEventHandler: bindEventHandler
+      }
+    })();
+
+    newGameSetupBehavior.bindEventHandler();
+  </script>
 </body>
 </html>
