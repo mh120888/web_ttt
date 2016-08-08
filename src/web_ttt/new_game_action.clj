@@ -14,7 +14,7 @@
   (let [params (into {} (.getAllParams request))]
     (.setHTTPVersion response "HTTP/1.1")
     (match/match [params]
-      [{"size" (:or "3" "4") "marker" (:or "x" "y") "gofirst" (:or "y" "n")}]
+      [{"size" (:or "3" "4") "marker" (:or "x" "o") "gofirst" (:or "y" "n")}]
       (do
         (.setStatus response 200)
         (.addHeader response "Content-Type" "text/html; charset=utf-8")

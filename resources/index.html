@@ -4,21 +4,65 @@
   <title>Clojure Tic Tac Toe</title>
   <meta charset="UTF-8">
 </head>
+<style type="text/css">
+body {
+  font-family: "Helvetica", Arial, sans-serif;
+  color: #333;
+}
+
+main {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin: 1em auto;
+}
+
+header h1, header p {
+  margin: 0 auto;
+}
+
+fieldset {
+  border: double 4px;
+  padding: 1em;
+  line-height: 2;
+}
+
+fieldset legend {
+  padding: 0 .5em;
+}
+
+fieldset p {
+  margin: 0 auto;
+}
+
+fieldset a {
+  display: table;
+  text-align: center;
+  margin: 0 auto;
+}
+</style>
 <body>
-  <h1>Clojure Tic Tac Toe</h1>
-  <p>Do you want to play a game?</p>
-  <fieldset>
-  <p>Do you want to go first?</p>
-  <label><input name='gofirst' type='radio' value='y' checked>Yes</label>
-  <label><input name='gofirst' type='radio' value='n'>No</label>
-  <p>Choose your marker</p>
-  <label><input name='marker' type='radio' value='x' checked>X</label>
-  <label><input name='marker' type='radio' value='o'>O</label>
-  <p>Choose your board size</p>
-  <label><input name='size' type='radio' value='3' checked>3x3</label>
-  <label><input name='size' type='radio' value='4'>4x4</label>
-  <a href="/new-game?marker=x&gofirst=y&size=3" class='new-game-link'>Play Game</a>
-  </fieldset>
+  <main>
+    <header>
+      <h1>Clojure Tic Tac Toe</h1>
+      <p>Do you want to play a game?</p>
+    </header>
+    <fieldset>
+      <legend>Game Options</legend>
+      <p>Do you want to go first?</p>
+      <label><input name='gofirst' type='radio' value='y' checked>Yes</label>
+      <label><input name='gofirst' type='radio' value='n'>No</label>
+      <p>Choose your marker</p>
+      <label><input name='marker' type='radio' value='x' checked>X</label>
+      <label><input name='marker' type='radio' value='o'>O</label>
+      <p>Choose your board size</p>
+      <label><input name='size' type='radio' value='3' checked>3x3</label>
+      <label><input name='size' type='radio' value='4'>4x4</label>
+      <a href="/new-game?marker=x&gofirst=y&size=3" class='new-game-link'>Play Game</a>
+    </fieldset>
     <script>
     var newGameSetupBehavior = (function() {
 
@@ -50,6 +94,7 @@
     })();
 
     newGameSetupBehavior.bindEventHandler();
-  </script>
+    </script>
+  </body>
 </body>
 </html>

@@ -1,8 +1,8 @@
 Feature: Starting a new game of tic tac toe
   As a user
-  I can start a new game with my game preferences
+  I can specify my game preferences
   And see a message
-  So I know the game has started
+  So I know my preferences were accepted
 
 Scenario: User creates a new game and sees a success message
   Given I am a user
