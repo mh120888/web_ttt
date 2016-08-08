@@ -7,10 +7,9 @@
    [web_ttt.action UnprocessableEntityAction]
    [web_ttt.action NotFoundAction]))
 
-(defn route-and-return-action [method path params]
-  (match/match [method path params]
-    ["GET" "/" _] (action/StaticResourceAction.)
-    [_ "/" _] (action/MethodNotAllowedAction.)
-    ["GET" "/new-game" {"size" _ "marker" _ "gofirst" _}] (action/NewGameAction.)
-    ["GET", "/new-game" _] (action/UnprocessableEntityAction.)
-    [_ _ _] (action/NotFoundAction.)))
+(defn route-and-return-action [method path]
+  (match/match [method path]
+    ["GET" "/"] (action/StaticResourceAction.)
+    [_ "/"] (action/MethodNotAllowedAction.)
+    ["GET", "/new-game"] (action/NewGameAction.)
+    [_ _] (action/NotFoundAction.)))
