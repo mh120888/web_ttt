@@ -9,3 +9,4 @@ Scenario: User creates a new game and sees a success message
   When I choose to play a new game with my preferences
   Then the response should be a 200
   And the response should contain the text "Let's play a game of tic tac toe"
+  And the response should contain an empty board
