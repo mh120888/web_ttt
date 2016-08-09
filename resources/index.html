@@ -20,7 +20,7 @@ header {
   margin: 1em auto;
 }
 
-header h1, header p {
+header h1 {
   margin: 0 auto;
 }
 
@@ -43,36 +43,71 @@ fieldset a {
   text-align: center;
   margin: 0 auto;
 }
+
+#variable-content {
+  text-align: center;
+}
+
+#board {
+  margin-top: 2em;
+}
+
+.space {
+  display: inline-block;
+  margin: .4em .2em;
+}
+
+.space a, .space .marker {
+  display: block;
+  padding: 1em;
+}
+
+.space a {
+  background-color: #eee;
+}
+
+.space a:hover {
+  background-color: lightblue;
+}
+
+.space .marker {
+  background-color: #ddd;
+}
+
 </style>
 <body>
   <main>
     <header>
       <h1>Clojure Tic Tac Toe</h1>
-      <p>Do you want to play a game?</p>
     </header>
-    <fieldset>
-      <legend>Game Options</legend>
-      <p>Do you want to go first?</p>
-      <label><input name='gofirst' type='radio' value='y' checked>Yes</label>
-      <label><input name='gofirst' type='radio' value='n'>No</label>
-      <p>Choose your marker</p>
-      <label><input name='marker' type='radio' value='x' checked>X</label>
-      <label><input name='marker' type='radio' value='o'>O</label>
-      <p>Choose your board size</p>
-      <label><input name='size' type='radio' value='3' checked>3x3</label>
-      <label><input name='size' type='radio' value='4'>4x4</label>
-      <a href="/new-game?marker=x&gofirst=y&size=3" class='new-game-link'>Play Game</a>
-    </fieldset>
+    <div id='variable-content'>
+      <p>Do you want to play a game?</p>
+      <fieldset>
+        <legend>Game Options</legend>
+        <p>Do you want to go first?</p>
+        <label><input name='gofirst' type='radio' value='y' checked>Yes</label>
+        <label><input name='gofirst' type='radio' value='n'>No</label>
+        <p>Choose your marker</p>
+        <label><input name='marker' type='radio' value='x' checked>X</label>
+        <label><input name='marker' type='radio' value='o'>O</label>
+        <p>Choose your board size</p>
+        <label><input name='size' type='radio' value='3' checked>3x3</label>
+        <label><input name='size' type='radio' value='4'>4x4</label>
+        <a href="/new-game?marker=x&gofirst=y&size=3" class='new-game-link'>Play Game</a>
+      </fieldset>
+    </div>
     <script>
     var newGameSetupBehavior = (function() {
 
       var newGameLink = document.querySelector(".new-game-link");
       var inputs = document.querySelectorAll("input");
+      var variableContent = document.getElementById("variable-content");
 
-      function bindEventHandler() {
+      function bindEventHandlers() {
         for (i=0; i<inputs.length; i++) {
           inputs[i].addEventListener("change", handleInputChange);
         }
+        newGameLink.addEventListener("click", getNewGame);
       }
 
       function handleInputChange() {
@@ -88,12 +123,27 @@ fieldset a {
         newGameLink.setAttribute("href", newPath);
       }
 
+      function getNewGame(e) {
+        e.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', this.getAttribute("href"));
+
+        xhr.onreadystatechange = function() {
+          var DONE = 4;
+          if (xhr.readyState === DONE && xhr.status === 200) {
+            variableContent.innerHTML = (xhr.responseText);
+          }
+        }
+
+        xhr.send(null);
+      }
+
       return {
-        bindEventHandler: bindEventHandler
+        bindEventHandlers: bindEventHandlers
       }
     })();
 
-    newGameSetupBehavior.bindEventHandler();
+    newGameSetupBehavior.bindEventHandlers();
     </script>
   </body>
 </body>
