@@ -1,21 +1,15 @@
 (ns web-ttt.core
   (:gen-class)
-  (:require [matts-clojure-ttt.game :as game])
+  (:require [web-ttt.app :as app])
   (:import [server.MyServer]
-           [app.Application]
-           [httpmessage.HTTPResponse]
-           [cobspecapp.CobSpecApp]
-           [basichttpmessage.BasicHTTPMessageFactory]))
+   [app.Application]
+   [basichttpmessage.BasicHTTPMessageFactory]))
 
 (def message-factory (basichttpmessage.BasicHTTPMessageFactory.))
 
 (def basic-app (reify app.Application
   (getResponse [this request response]
-    (let [response (.getNewResponse message-factory)]
-      (if (= "/" (.getPath request))
-        (.setStatus response 200)
-        (.setStatus response 404))
-      response))))
+    (app/get-response request response))))
 
 (defn -main
   [& args]
