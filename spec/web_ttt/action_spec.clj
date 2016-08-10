@@ -7,7 +7,6 @@
    [web_ttt.action MethodNotAllowedAction]
    [web_ttt.action NewGameAction]
    [web_ttt.action MakeMoveAction]
-   [web_ttt.action UnprocessableEntityAction]
    [web_ttt.action NotFoundAction]))
 
 (defn marked-space-html
