@@ -53,19 +53,3 @@
 
   (it "returns a response with a content-type of text/html; charset=utf-8"
     (should-contain "Content-Type: text/html; charset=utf-8" (.getFormattedResponse response))))
-
-(describe "MakeMoveAction#get-response"
-
-  (it "returns a response with a status of 200 when space and marker parameters are present"
-    (def request (.getNewRequest core/message-factory))
-    (def response (.getNewResponse core/message-factory))
-    (.setRequestLine request "GET /make-move?space=0&marker=x&board={0{},1{},2{},3{},4{},5{},6{},7{},8{}} HTTP/1.1")
-    (get-response (MakeMoveAction.) request response)
-    (should-contain "200" (.getFormattedResponse response)))
-
-  (it "returns a response that shows the selected space was marked with the specified marker"
-    (def request (.getNewRequest core/message-factory))
-    (def response (.getNewResponse core/message-factory))
-    (.setRequestLine request "GET /make-move?space=0&marker=o&board={0{},1{},2{},3{},4{},5{},6{},7{},8{}} HTTP/1.1")
-    (get-response (MakeMoveAction.) request response)
-    (should-contain (marked-space-html "0" "o") (.getFormattedResponse response))))
