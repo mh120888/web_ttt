@@ -6,7 +6,9 @@ Feature: Starting a new game of tic tac toe
 
 Scenario: User creates a new game and sees a success message
   Given I am a user
-  When I choose to play a new game with my preferences
+  And I choose to play a new game with the following preferences
+    | marker  | size   | gofirst |
+    | x       | 3      | y       |
   Then the response should be a 200
   And the response should contain the text "Let's play a game of tic tac toe"
   And the response should contain an empty board
