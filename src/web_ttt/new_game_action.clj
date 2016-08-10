@@ -12,5 +12,5 @@
         (do
           (.setStatus response 200)
           (.addHeader response "Content-Type" "text/html; charset=utf-8")
-          (.setBody response (.getBytes (str "Let's play a game of tic tac toe" (board-as-html/render-board (board/generate-new-board (Integer/parseInt (get params "size"))))))))
+          (.setBody response (.getBytes (str "Let's play a game of tic tac toe" (board-as-html/render-board (board/generate-new-board (Integer/parseInt (get params "size"))) (get params "marker"))))))
       [_] (.setStatus response 422))))

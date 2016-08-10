@@ -56,16 +56,16 @@
 
 (describe "MakeMoveAction#get-response"
 
-  (it "returns a response with a status of 200 when space parameter is present"
+  (it "returns a response with a status of 200 when space and marker parameters are present"
     (def request (.getNewRequest core/message-factory))
     (def response (.getNewResponse core/message-factory))
-    (.setRequestLine request "GET /make-move?space=0 HTTP/1.1")
+    (.setRequestLine request "GET /make-move?space=0&marker=x HTTP/1.1")
     (get-response (MakeMoveAction.) request response)
     (should-contain "200" (.getFormattedResponse response)))
 
   (it "returns a response that shows the selected space was marked with the specified marker"
     (def request (.getNewRequest core/message-factory))
     (def response (.getNewResponse core/message-factory))
-    (.setRequestLine request "GET /make-move?space=0 HTTP/1.1")
+    (.setRequestLine request "GET /make-move?space=0&marker=o HTTP/1.1")
     (get-response (MakeMoveAction.) request response)
-    (should-contain (marked-space-html "0" "x") (.getFormattedResponse response))))
+    (should-contain (marked-space-html "0" "o") (.getFormattedResponse response))))

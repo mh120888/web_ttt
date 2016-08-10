@@ -10,7 +10,7 @@
 
   (context "with correct parameters"
     (before-all
-      (.setRequestLine request "GET /new-game?marker=x&gofirst=y&size=3 HTTP/1.1")
+      (.setRequestLine request "GET /new-game?marker=o&gofirst=y&size=3 HTTP/1.1")
       (get-response request response)
       (def app-response (.getFormattedResponse response)))
 
@@ -21,7 +21,7 @@
       (should-contain (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" "") app-response)))
 
   (it "returns a response with a 4x4 empty board when the 4x4 board size option is chosen"
-    (.setRequestLine request "GET /new-game?marker=x&gofirst=y&size=4 HTTP/1.1")
+    (.setRequestLine request "GET /new-game?marker=o&gofirst=y&size=4 HTTP/1.1")
     (get-response request response)
     (should-contain (clojure.string/replace (slurp "resources/_empty_board_4.html") #"\s\s+" "") (.getFormattedResponse response)))
 
