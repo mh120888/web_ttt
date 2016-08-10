@@ -7,7 +7,7 @@
   [board space marker]
     (hiccup/html [:span {:class "space" :data-space space}
     (if (board/space-free? board space)
-      (clojure.string/replace (hiccup/html [:a {:href (str "/make-move?space=" space "&" "marker=" marker)} "__"]) "&amp;" "&")
+      (clojure.string/replace (hiccup/html [:a {:href (str "/make-move?space=" space "&" "marker=" marker "&" "board=" (clojure.string/replace board #"\s" ""))} "__"]) "&amp;" "&")
       (hiccup/html [:span {:class "marker"} (board/look-up-space board space)]))]))
 
 (defn render-row

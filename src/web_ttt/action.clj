@@ -37,7 +37,7 @@
   Action
   (get-response [type request response]
     (let [params (into {} (.getAllParams request))
-          next-board (board/mark-space (board/generate-new-board 3) (Integer/parseInt (get params "space")) (get params "marker"))]
+          next-board (board/mark-space (read-string (get params "board")) (Integer/parseInt (get params "space")) (get params "marker"))]
       (.setHTTPVersion response "HTTP/1.1")
       (.setStatus response 200)
       (.addHeader response "Content-Type" "text/html; charset=utf-8")
