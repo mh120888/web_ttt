@@ -1,6 +1,7 @@
 (ns web-ttt.action
-  (:require [matts-clojure-ttt.console-ui :as ui]
-    [web-ttt.new-game-action :as new-game-action]
+  (:require [web-ttt.new-game-action :as new-game-action]
+    [matts-clojure-ttt.board :as board]
+    [web-ttt.board-as-html :as board-as-html]
     [clojure.core.match :as match]))
 
 (defprotocol Action
@@ -31,3 +32,13 @@
   Action
   (get-response [type request response]
     (new-game-action/get-response request response)))
+
+(deftype MakeMoveAction []
+  Action
+  (get-response [type request response]
+    (let [params (into {} (.getAllParams request))
+          new-board (board/mark-space (board/generate-new-board 3) (Integer/parseInt (get params "space")) "x")]
+      (.setHTTPVersion response "HTTP/1.1")
+      (.setStatus response 200)
+      (.addHeader response "Content-Type" "text/html; charset=utf-8")
+      (.setBody response (.getBytes (board-as-html/render-board new-board))))))

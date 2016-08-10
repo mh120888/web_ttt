@@ -9,7 +9,7 @@
 (defn marked-space-html
   [space marker]
   (hiccup/html [:span {:class "space" :data-space space}
-    [:span marker]]))
+    [:span {:class "marker"} marker]]))
 
 (Given #"^I choose to play a new game with the following preferences$" [data]
   (let [preferences (into {} (table->rows data))

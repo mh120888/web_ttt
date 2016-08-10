@@ -55,6 +55,8 @@ fieldset a {
 .space {
   display: inline-block;
   margin: .4em .2em;
+  width: 3em;
+  height: 3em;
 }
 
 .space a, .space .marker {
@@ -107,7 +109,14 @@ fieldset a {
         for (i=0; i<inputs.length; i++) {
           inputs[i].addEventListener("change", handleInputChange);
         }
-        newGameLink.addEventListener("click", getNewGame);
+        variableContent.addEventListener("click", handleLinkClick);
+        newGameLink.addEventListener("click", getNextBoard);
+      }
+
+      function handleLinkClick(e) {
+        if (e.target && e.target.nodeName == "A") {
+          getNextBoard(e);
+        }
       }
 
       function handleInputChange() {
@@ -123,10 +132,10 @@ fieldset a {
         newGameLink.setAttribute("href", newPath);
       }
 
-      function getNewGame(e) {
+      function getNextBoard(e) {
         e.preventDefault();
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', this.getAttribute("href"));
+        xhr.open('GET', e.target.getAttribute("href"));
 
         xhr.onreadystatechange = function() {
           var DONE = 4;
