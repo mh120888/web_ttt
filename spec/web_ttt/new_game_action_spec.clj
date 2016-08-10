@@ -18,12 +18,12 @@
       (should-contain "200" app-response))
 
     (it "contains an empty board in the response"
-      (should-contain (slurp "resources/_empty_board_3.html") app-response)))
+      (should-contain (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" "") app-response)))
 
   (it "returns a response with a 4x4 empty board when the 4x4 board size option is chosen"
     (.setRequestLine request "GET /new-game?marker=x&gofirst=y&size=4 HTTP/1.1")
     (get-response request response)
-    (should-contain (slurp "resources/_empty_board_4.html") (.getFormattedResponse response)))
+    (should-contain (clojure.string/replace (slurp "resources/_empty_board_4.html") #"\s\s+" "") (.getFormattedResponse response)))
 
   (it "returns a response with a status of 422 w/incorrect parameters"
     (.setRequestLine request "GET /new-game?marker=incorrect&gofirst=incorrect&size=randomwords HTTP/1.1")

@@ -3,7 +3,7 @@
 
 (def request (.getNewRequest message-factory))
 (def new-response (.getNewResponse message-factory))
-(def empty-board-3 (slurp "resources/_empty_board_3.html"))
+(def empty-board-3 (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" ""))
 
 (When #"^I choose to play a new game with my preferences$" []
   (.setRequestLine request "GET /new-game?marker=x&gofirst=y&size=3 HTTP/1.1")

@@ -1,5 +1,7 @@
 (ns web-ttt.new-game-action
   (:require [matts-clojure-ttt.console-ui :as ui]
+    [web-ttt.board-as-html :as board-as-html]
+    [matts-clojure-ttt.board :as board]
     [clojure.core.match :as match]))
 
 (deftype WebIO []
@@ -17,5 +19,5 @@
         (do
           (.setStatus response 200)
           (.addHeader response "Content-Type" "text/html; charset=utf-8")
-          (.setBody response (ui/io-print-line (WebIO.) (str "Let's play a game of tic tac toe" (slurp (str "resources/_empty_board_" (get params "size") ".html"))))))
+          (.setBody response (ui/io-print-line (WebIO.) (str "Let's play a game of tic tac toe" (board-as-html/render-board (board/generate-new-board (Integer/parseInt (get params "size"))))))))
       [_] (.setStatus response 422))))
