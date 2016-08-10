@@ -2,7 +2,7 @@
   (:require [speclj.core :refer :all]
     [web-ttt.action :as action]
     [web-ttt.router :refer :all])
-  (:import [web_ttt.action StaticResourceAction]
+  (:import [web_ttt.action HomepageAction]
    [web_ttt.action MethodNotAllowedAction]
    [web_ttt.action NewGameAction]
    [web_ttt.action UnprocessableEntityAction]
@@ -11,8 +11,8 @@
 
 (describe "route-and-return-action"
   (context "WHEN method = GET, path = /"
-    (it "returns a StaticResourceAction"
-      (should-be-a (type (action/StaticResourceAction.)) (route-and-return-action "GET" "/"))))
+    (it "returns a HomepageAction"
+      (should-be-a (type (action/HomepageAction.)) (route-and-return-action "GET" "/"))))
 
   (context "WHEN method = !GET, path = /"
     (it "returns a MethodNotAllowedAction"

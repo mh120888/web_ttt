@@ -8,7 +8,7 @@
 (defprotocol Action
   (get-response [type request response]))
 
-(deftype StaticResourceAction []
+(deftype HomepageAction []
   Action
   (get-response [type request response]
     (do
@@ -20,10 +20,6 @@
 (deftype MethodNotAllowedAction []
   Action
   (get-response [type request response] (.setStatus response 405)))
-
-(deftype UnprocessableEntityAction []
-  Action
-  (get-response [type request response] (.setStatus response 422)))
 
 (deftype NotFoundAction []
   Action
