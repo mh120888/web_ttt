@@ -8,6 +8,16 @@
 (def empty-board-3 (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" ""))
 (def empty-board-4 (clojure.string/replace (slurp "resources/_empty_board_4.html") #"\s\s+" ""))
 
+(Given #"^I am a user$" [])
+
+(When #"^I go to the homepage$" []
+  (.setRequestLine request "GET / HTTP/1.1")
+  (def app-response (.getFormattedResponse (.getResponse basic-app request new-response))))
+
+(Then #"^the response should be a (\d+)$" [status]
+  (should-contain status app-response))
+
+
 (defn marked-space-html
   [space marker]
   (hiccup/html [:span {:class "space" :data-space space}
@@ -39,3 +49,10 @@
 
 (Then #"^the response should contain a board with space (\d+) taken by (\w+)$" [space marker]
   (should-contain (marked-space-html space marker) app-response))
+
+(Then #"^space (\d+) is not available to be played on again$" [space]
+  (should-contain (marked-space-html space marker) app-response)
+  (should-not-contain (str "/make-move?space=" space) app-response))
+
+(Then #"^the response should contain the text \"([^\"]*)\"$" [text]
+  (should-contain text app-response))
