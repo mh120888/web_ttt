@@ -21,7 +21,7 @@
   (let [params (into {} (.getAllParams request))]
     (.setHTTPVersion response "HTTP/1.1")
     (match/match [params]
-      [{"space" _, "marker" _, "board" _}]
+      [{"space" _, "marker" _}]
       (let [next-board (board/mark-space (get-board params) (get-space params) (get-marker params))
             game-over (board/game-over? next-board)
             extra-message (if game-over

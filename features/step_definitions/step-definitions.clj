@@ -60,7 +60,7 @@
     (should-contain empty-board-4 app-response)))
 
 (When #"^I play on space (\d+)$" [space]
-  (let [request-line (str "GET /make-move?space=" space "&marker=" marker "&board=" (clojure.string/replace new-board #"\s" "") " HTTP/1.1")]
+  (let [request-line (str "GET /make-move?space=" space "&marker=" marker " HTTP/1.1")]
     (.setRequestLine request request-line)
     (def app-response (.getFormattedResponse (.getResponse basic-app request (.getNewResponse message-factory))))))
 

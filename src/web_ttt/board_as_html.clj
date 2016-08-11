@@ -7,7 +7,7 @@
 
 (defn- generate-path-for-link
   [board space marker]
-  (str "/make-move?space=" space "&" "marker=" marker "&" "board=" (clojure.string/replace board #"\s" "")))
+  (str "/make-move?space=" space "&" "marker=" marker))
 
 (defn- render-open-space
   [board space marker winner]
