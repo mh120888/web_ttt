@@ -23,15 +23,30 @@
   (hiccup/html [:span {:class "space" :data-space space}
     [:span {:class "marker"} marker]]))
 
+(defn generate-board-state
+  [board space moves-left-to-play]
+  (if (empty? moves-left-to-play)
+    board
+    (let [marker (first moves-left-to-play)
+      space space
+      next-board (if (not= "_" marker)
+                  (board/mark-space board space marker)
+                  board)
+      rest-of-moves (rest moves-left-to-play)]
+      (recur next-board (inc space) rest-of-moves))))
+
 (Given #"^I choose to play a new game with the following preferences$" [data]
   (let [preferences (into {} (table->rows data))
     marker (:marker preferences)
     gofirst (:gofirst preferences)
     size (:size preferences)]
     (def marker (:marker preferences))
-    (def empty-board (board/generate-new-board size))
+    (def new-board (board/generate-new-board size))
     (.setRequestLine request (str "GET /new-game?marker=" marker "&gofirst=" gofirst "&size=" size " HTTP/1.1"))
     (def app-response (.getFormattedResponse (.getResponse basic-app request new-response)))))
+
+(Given #"^the board is in the following state$" [board-state]
+  (def new-board (generate-board-state new-board 0 (clojure.string/split board-state #"\s+"))))
 
 (When #"^I choose to play a new game with my preferences$" []
   (.setRequestLine request "GET /new-game?marker=x&gofirst=y&size=3 HTTP/1.1")
@@ -43,7 +58,7 @@
     (should-contain empty-board-4 app-response)))
 
 (When #"^I play on space (\d+)$" [space]
-  (let [request-line (str "GET /make-move?space=" space "&marker=" marker "&board=" (clojure.string/replace empty-board #"\s" "") " HTTP/1.1")]
+  (let [request-line (str "GET /make-move?space=" space "&marker=" marker "&board=" (clojure.string/replace new-board #"\s" "") " HTTP/1.1")]
     (.setRequestLine request request-line)
     (def app-response (.getFormattedResponse (.getResponse basic-app request (.getNewResponse message-factory))))))
 
