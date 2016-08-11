@@ -4,10 +4,6 @@
     [clojure.core.match :as match]
     [matts-clojure-ttt.board :as board]))
 
-; (defn get-board
-;   [params]
-;   (get params "board"))
-
 (defn get-board
   [params]
   (board-state/get-board))
@@ -26,7 +22,7 @@
     (.setHTTPVersion response "HTTP/1.1")
     (match/match [params]
       [{"space" _, "marker" _, "board" _}]
-      (let [next-board (board/mark-space (clojure.edn/read-string (get-board params)) (get-space params) (get-marker params))
+      (let [next-board (board/mark-space (get-board params) (get-space params) (get-marker params))
             game-over (board/game-over? next-board)
             extra-message (if game-over
                             "Game Over"

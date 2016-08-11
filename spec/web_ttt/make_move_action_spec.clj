@@ -13,7 +13,7 @@
       (def request (.getNewRequest core/message-factory))
       (def response (.getNewResponse core/message-factory))
       (.setRequestLine request "GET /make-move?space=8&marker=o&board={0{:marked\"x\"},7{:marked\"o\"},1{:marked\"o\"},4{:marked\"x\"},6{:marked\"x\"},3{:marked\"o\"},2{:marked\"x\"},5{:marked\"o\"},8{}} HTTP/1.1")
-      (board-state/update-board (get (into {} (.getAllParams request)) "board"))
+      (board-state/update-board (read-string (get (into {} (.getAllParams request)) "board")))
       (get-response request response))
 
     (it "returns a response with a status of 200"

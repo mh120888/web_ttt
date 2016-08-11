@@ -1,6 +1,7 @@
 (require '[web-ttt.core :refer :all]
   '[matts-clojure-ttt.board :as board]
   '[speclj.core :refer :all]
+  '[web-ttt.board-state :as board-state]
   '[hiccup.core :as hiccup])
 
 (def request (.getNewRequest message-factory))
@@ -46,7 +47,8 @@
     (def app-response (.getFormattedResponse (.getResponse basic-app request new-response)))))
 
 (Given #"^the board is in the following state$" [board-state]
-  (def new-board (generate-board-state new-board 0 (clojure.string/split board-state #"\s+"))))
+  (def new-board (generate-board-state new-board 0 (clojure.string/split board-state #"\s+")))
+  (board-state/update-board new-board))
 
 (When #"^I choose to play a new game with my preferences$" []
   (.setRequestLine request "GET /new-game?marker=x&gofirst=y&size=3 HTTP/1.1")
