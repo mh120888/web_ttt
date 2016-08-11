@@ -18,13 +18,7 @@
       (should-contain "200" (.getFormattedResponse response)))
 
     (it "returns a response that shows the selected space was marked with the specified marker"
-      (should-contain (action-spec/marked-space-html "8" "o") (.getFormattedResponse response)))
-
-    (it "returns a response that indicates the game is over if the board is full"
-      (should-contain "Game Over" (.getFormattedResponse response)))
-
-    (it "returns a response that indicates the game was tied if there is no winner and the board is full"
-      (should-contain "Cat's Game" (.getFormattedResponse response))))
+      (should-contain (action-spec/marked-space-html "8" "o") (.getFormattedResponse response))))
 
   (it "returns a 422 if a required parameter is missing"
     (def request (.getNewRequest core/message-factory))

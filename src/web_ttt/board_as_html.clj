@@ -37,9 +37,10 @@
 
 (defn render-alert
   [board]
-  (if (board/board-full? board)
-    (hiccup/html [:p {:class "alert"} "Game Over - Cat's Game"])
-    ""))
+  (cond
+    (not (nil? (board/get-winner board))) (hiccup/html [:p {:class "alert"} "Game Over - Player " (board/get-winner board) " won"])
+    (board/board-full? board) (hiccup/html [:p {:class "alert"} "Game Over - Cat's Game"])
+    :else ""))
 
 (defn generate-html-response
   [board marker]

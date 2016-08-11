@@ -10,8 +10,8 @@ Scenario:
   And the board is in the following state
   """
   x o x
-  o x o
-  x o _
+  x o o
+  o x _
   """
   When I play on space 8
   Then the response should contain the text "Game Over"
