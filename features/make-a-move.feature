@@ -7,7 +7,7 @@ Scenario: A user can make a move
   Given I am a user
   And I choose to play a new game with the following preferences
     | marker  | size   | gofirst |
-    | x       | 3      | y       |
+    | o       | 3      | y       |
   When I play on space 0
   Then the response should be a 200
-  And the response should contain a board with space 0 taken by x
+  And the response should contain a board with space 0 taken by o

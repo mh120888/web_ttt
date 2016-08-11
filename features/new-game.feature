@@ -11,4 +11,4 @@ Scenario: User creates a new game and sees a success message
     | o       | 3      | y       |
   Then the response should be a 200
   And the response should contain the text "Let's play a game of tic tac toe"
-  And the response should contain an empty board
+  And the response should contain an empty board of size 3
