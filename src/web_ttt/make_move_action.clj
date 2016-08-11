@@ -18,5 +18,5 @@
           (.setHTTPVersion response "HTTP/1.1")
           (.setStatus response 200)
           (.addHeader response "Content-Type" "text/html; charset=utf-8")
-          (.setBody response (.getBytes (board-as-html/render-board next-board (get params "marker"))))))
+          (.setBody response (.getBytes (board-as-html/generate-html-response next-board (get params "marker"))))))
       [_] (.setStatus response 422))))
