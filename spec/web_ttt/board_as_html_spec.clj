@@ -7,6 +7,8 @@
 (describe "#render-board"
   (before-all
     (def empty-board (board/generate-new-board 3))
+    (def board-in-progress {0 {:marked "x"}, 1{}, 2{}, 3{}, 4 {:marked "o"}, 5{}, 6{}, 7{}, 8{}})
+    (def board-with-cats-game {0 {:marked "x"}, 1{:marked "0"}, 2{:marked "x"}, 3{:marked "o"}, 4 {:marked "x"}, 5{:marked "o"}, 6{:marked "x"}, 7{:marked "o"}, 8{:marked "x"}})
     (def rendered-empty-board (render-board empty-board "o")))
 
   (context "when given an empty 3x3 board and the marker o"
@@ -19,3 +21,13 @@
   (context "when given a board where player o has played on space 0"
     (it "returns a board with space 0 marked with o"
       (should-contain "<span class=\"marker\">o</span>" (render-board (board/mark-space empty-board 0 "o") "o")))))
+
+(describe "#render-alert"
+  (it "returns an empty string for an empty board"
+    (should= "" (render-alert empty-board)))
+
+  (it "returns an empty string for a game that is not yet over (no winner, no tie)"
+    (should= "" (render-alert board-in-progress)))
+
+  (it "includes the phrase \"Cat's Game\" in the response for a tied game"
+    (should-contain "Cat's Game" (render-alert board-with-cats-game))))
