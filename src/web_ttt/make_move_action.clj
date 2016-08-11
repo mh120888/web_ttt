@@ -9,7 +9,11 @@
     (.setHTTPVersion response "HTTP/1.1")
     (match/match [params]
       [{"space" _, "marker" _, "board" _}]
-      (let [next-board (board/mark-space (clojure.edn/read-string (get params "board")) (Integer/parseInt (get params "space")) (get params "marker"))]
+      (let [next-board (board/mark-space (clojure.edn/read-string (get params "board")) (Integer/parseInt (get params "space")) (get params "marker"))
+            game-over (board/game-over? next-board)
+            extra-message (if game-over
+                            "Game Over"
+                            "")]
         (do
           (.setHTTPVersion response "HTTP/1.1")
           (.setStatus response 200)

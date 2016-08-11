@@ -11,14 +11,20 @@
     (before-all
       (def request (.getNewRequest core/message-factory))
       (def response (.getNewResponse core/message-factory))
-      (.setRequestLine request "GET /make-move?space=0&marker=o&board={0{},1{},2{},3{},4{},5{},6{},7{},8{}} HTTP/1.1")
+      (.setRequestLine request "GET /make-move?space=8&marker=o&board={0{:marked\"x\"},7{:marked\"o\"},1{:marked\"o\"},4{:marked\"x\"},6{:marked\"x\"},3{:marked\"o\"},2{:marked\"x\"},5{:marked\"o\"},8{}} HTTP/1.1")
       (get-response request response))
 
     (it "returns a response with a status of 200"
       (should-contain "200" (.getFormattedResponse response)))
 
     (it "returns a response that shows the selected space was marked with the specified marker"
-      (should-contain (action-spec/marked-space-html "0" "o") (.getFormattedResponse response))))
+      (should-contain (action-spec/marked-space-html "8" "o") (.getFormattedResponse response)))
+
+    (it "returns a response that indicates the game is over if the board is full"
+      (should-contain "Game Over" (.getFormattedResponse response)))
+
+    (it "returns a response that indicates the game was tied if there is no winner and the board is full"
+      (should-contain "Cat's Game" (.getFormattedResponse response))))
 
   (it "returns a 422 if a required parameter is missing"
     (def request (.getNewRequest core/message-factory))
