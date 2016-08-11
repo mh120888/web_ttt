@@ -6,6 +6,5 @@
   (let [method (.getMethod request)
         path (.getPath request)
         action (router/route-and-return-action method path)]
-    (.setHTTPVersion response "HTTP/1.1")
     (action/get-response action request response)
     response))
