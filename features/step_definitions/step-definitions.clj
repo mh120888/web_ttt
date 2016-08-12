@@ -9,16 +9,6 @@
 (def empty-board-3 (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" ""))
 (def empty-board-4 (clojure.string/replace (slurp "resources/_empty_board_4.html") #"\s\s+" ""))
 
-(Given #"^I am a user$" [])
-
-(When #"^I go to the homepage$" []
-  (.setRequestLine request "GET / HTTP/1.1")
-  (def app-response (.getFormattedResponse (.getResponse basic-app request new-response))))
-
-(Then #"^the response should be a (\d+)$" [status]
-  (should-contain status app-response))
-
-
 (defn marked-space-html
   [space marker]
   (hiccup/html [:span {:class "space" :data-space space}
@@ -36,6 +26,8 @@
       rest-of-moves (rest moves-left-to-play)]
       (recur next-board (inc space) rest-of-moves))))
 
+(Given #"^I am a user$" [])
+
 (Given #"^I choose to play a new game with the following preferences$" [data]
   (let [preferences (into {} (table->rows data))
     marker (:marker preferences)
@@ -50,19 +42,29 @@
   (def new-board (generate-board-state new-board 0 (clojure.string/split board-state #"\s+")))
   (board-state/update-board new-board))
 
+(When #"^I go to the homepage$" []
+  (.setRequestLine request "GET / HTTP/1.1")
+  (def app-response (.getFormattedResponse (.getResponse basic-app request new-response))))
+
 (When #"^I choose to play a new game with my preferences$" []
   (.setRequestLine request "GET /new-game?marker=x&gofirst=y&size=3 HTTP/1.1")
   (def app-response (.getFormattedResponse (.getResponse basic-app request new-response))))
-
-(Then #"^the response should contain an empty board of size (\d+)$" [size]
-  (if (= "3" size)
-    (should-contain empty-board-3 app-response)
-    (should-contain empty-board-4 app-response)))
 
 (When #"^I play on space (\d+)$" [space]
   (let [request-line (str "GET /make-move?space=" space "&marker=" marker " HTTP/1.1")]
     (.setRequestLine request request-line)
     (def app-response (.getFormattedResponse (.getResponse basic-app request (.getNewResponse message-factory))))))
+
+(When #"^player \"([^\"]*)\" has not yet played$" [marker]
+  (board-state/set-turn marker))
+
+(Then #"^the response should be a (\d+)$" [status]
+  (should-contain status app-response))
+
+(Then #"^the response should contain an empty board of size (\d+)$" [size]
+  (if (= "3" size)
+    (should-contain empty-board-3 app-response)
+    (should-contain empty-board-4 app-response)))
 
 (Then #"^the response should contain a board with space (\d+) taken by (\w+)$" [space marker]
   (should-contain (marked-space-html space marker) app-response))
