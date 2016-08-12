@@ -3,80 +3,86 @@
 <head>
   <title>Clojure Tic Tac Toe</title>
   <meta charset="UTF-8">
+  <style type="text/css">
+  body {
+    font-family: "Helvetica", Arial, sans-serif;
+    color: #333;
+  }
+
+  main {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin: 1em auto;
+  }
+
+  header h1 {
+    margin: 0 auto;
+  }
+
+  fieldset {
+    border: double 4px;
+    padding: 1em;
+    line-height: 2;
+  }
+
+  fieldset legend {
+    padding: 0 .5em;
+  }
+
+  fieldset p {
+    margin: 0 auto;
+  }
+
+  fieldset a {
+    display: table;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  #variable-content {
+    text-align: center;
+  }
+
+  #board {
+    margin-top: 2em;
+  }
+
+  .space {
+    display: inline-block;
+    margin: .4em .2em;
+    width: 3em;
+    height: 3em;
+  }
+
+  .space a, .space .marker {
+    display: block;
+    padding: 1em;
+  }
+
+  .space a {
+    background-color: #eee;
+  }
+
+  .space a:hover {
+    background-color: lightblue;
+  }
+
+  .space .marker {
+    background-color: #ddd;
+  }
+
+  .alert {
+    margin: 2em auto;
+    padding: 1em;
+    border: double 4px #666;
+  }
+
+  </style>
 </head>
-<style type="text/css">
-body {
-  font-family: "Helvetica", Arial, sans-serif;
-  color: #333;
-}
-
-main {
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-header {
-  text-align: center;
-  margin: 1em auto;
-}
-
-header h1 {
-  margin: 0 auto;
-}
-
-fieldset {
-  border: double 4px;
-  padding: 1em;
-  line-height: 2;
-}
-
-fieldset legend {
-  padding: 0 .5em;
-}
-
-fieldset p {
-  margin: 0 auto;
-}
-
-fieldset a {
-  display: table;
-  text-align: center;
-  margin: 0 auto;
-}
-
-#variable-content {
-  text-align: center;
-}
-
-#board {
-  margin-top: 2em;
-}
-
-.space {
-  display: inline-block;
-  margin: .4em .2em;
-  width: 3em;
-  height: 3em;
-}
-
-.space a, .space .marker {
-  display: block;
-  padding: 1em;
-}
-
-.space a {
-  background-color: #eee;
-}
-
-.space a:hover {
-  background-color: lightblue;
-}
-
-.space .marker {
-  background-color: #ddd;
-}
-
-</style>
 <body>
   <main>
     <header>

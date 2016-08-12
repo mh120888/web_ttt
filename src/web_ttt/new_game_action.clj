@@ -1,5 +1,6 @@
 (ns web-ttt.new-game-action
   (:require [matts-clojure-ttt.console-ui :as ui]
+    [web-ttt.board-state :as board-state]
     [web-ttt.board-as-html :as board-as-html]
     [matts-clojure-ttt.board :as board]
     [clojure.core.match :as match]))
@@ -10,7 +11,8 @@
     (match/match [params]
       [{"size" (:or "3" "4"), "marker" (:or "x" "o"), "gofirst" (:or "y" "n")}]
         (do
+          (board-state/update-board (board/generate-new-board (Integer/parseInt (get params "size"))))
           (.setStatus response 200)
           (.addHeader response "Content-Type" "text/html; charset=utf-8")
-          (.setBody response (.getBytes (str (board-as-html/generate-html-response (board/generate-new-board (Integer/parseInt (get params "size"))) (get params "marker")) "<p>Let's play a game of tic tac toe</p>"))))
+          (.setBody response (.getBytes (str (board-as-html/generate-html-response (board-state/get-board) (get params "marker")) "<p>Let's play a game of tic tac toe</p>"))))
       [_] (.setStatus response 422))))
