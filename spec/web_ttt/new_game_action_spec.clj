@@ -27,6 +27,9 @@
     (it "sets the current player to the human player if human chose to go first"
       (should= "o" (board-state/get-current-player)))
 
+    (it "sets the human marker to the chosen marker"
+      (should= "o" (board-state/get-human-marker)))
+
     (it "sets the current player to the opponent if human chose to go second"
       (.setRequestLine request "GET /new-game?marker=o&gofirst=n&size=3 HTTP/1.1")
       (get-response request response)

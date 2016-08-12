@@ -1,6 +1,7 @@
 (ns web-ttt.action
   (:require [web-ttt.new-game-action :as new-game-action]
     [web-ttt.make-move-action :as make-move-action]
+    [web-ttt.computer-move-action :as computer-move-action]
     [matts-clojure-ttt.board :as board]
     [web-ttt.board-as-html :as board-as-html]
     [clojure.core.match :as match]))
@@ -34,3 +35,8 @@
   Action
   (get-response [type request response]
     (make-move-action/get-response request response)))
+
+(deftype ComputerMoveAction []
+  Action
+  (get-response [type request response]
+    (computer-move-action/get-response request response)))

@@ -46,7 +46,7 @@
     (cond
       (not (nil? winner)) (hiccup/html [:p {:class "alert"} "Game Over - Player " winner " won"])
       (board/board-full? board) (hiccup/html [:p {:class "alert"} "Game Over - Cat's Game"])
-      :else "")))
+      :else (hiccup/html [:a {:href "/computer-move"} "Get Computer Move"]))))
 
 (defn generate-html-response
   [board marker]

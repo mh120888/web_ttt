@@ -6,6 +6,7 @@
    [web_ttt.action MethodNotAllowedAction]
    [web_ttt.action NewGameAction]
    [web_ttt.action MakeMoveAction]
+   [web_ttt.action ComputerMoveAction]
    [web_ttt.action NotFoundAction]))
 
 (describe "route-and-return-action"
@@ -24,6 +25,10 @@
   (context "WHEN method = GET, path = /make-move"
     (it "returns a MakeMoveAction"
       (should-be-a (type (action/MakeMoveAction.)) (route-and-return-action "GET" "/make-move"))))
+
+  (context "WHEN method = GET, path = /computer-move"
+    (it "returns a ComputerMoveAction"
+      (should-be-a (type (action/ComputerMoveAction.)) (route-and-return-action "GET" "/computer-move"))))
 
   (context "unknown requests"
     (it "returns a NotFoundAction for requests to an unknown path"
