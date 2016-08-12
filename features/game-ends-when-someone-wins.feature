@@ -9,7 +9,7 @@ Scenario: Game ends when there is a winner
     | x       | 3      | y       |
   And the board is in the following state
   """
-  _ o o
+  _ _ o
   o x o
   x o x
   """
