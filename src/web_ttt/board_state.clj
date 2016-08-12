@@ -11,6 +11,10 @@
   [marker]
   (reset! board-turn marker))
 
+(defn get-current-player
+  []
+  @board-turn)
+
 (def board-state (atom {}))
 
 (defn update-board
