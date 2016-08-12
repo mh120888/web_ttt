@@ -81,6 +81,10 @@
     border: double 4px #666;
   }
 
+  .computer-move {
+    display: none;
+  }
+
   </style>
 </head>
 <body>
@@ -121,6 +125,7 @@
 
       function handleLinkClick(e) {
         if (e.target && e.target.nodeName == "A") {
+          e.preventDefault();
           getNextBoard(e);
         }
       }
@@ -139,7 +144,6 @@
       }
 
       function getNextBoard(e) {
-        e.preventDefault();
         var xhr = new XMLHttpRequest();
         xhr.open('GET', e.target.getAttribute("href"));
 
@@ -147,10 +151,18 @@
           var DONE = 4;
           if (xhr.readyState === DONE && xhr.status === 200) {
             variableContent.innerHTML = (xhr.responseText);
+            setTimeout(getComputerMove, 750);
           }
         }
 
         xhr.send(null);
+      }
+
+      function getComputerMove() {
+        var getComputerMoveLink = document.querySelector(".computer-move");
+        if (getComputerMoveLink) {
+          getComputerMoveLink.click();
+        }
       }
 
       return {
