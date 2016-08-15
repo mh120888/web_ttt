@@ -153,27 +153,43 @@
     var newGameSetupBehavior = (function() {
 
       var newGameLink = document.querySelector(".new-game-link");
-      var inputs = document.querySelectorAll("input");
       var variableContent = document.getElementById("variable-content");
 
-      function bindEventHandlers() {
-        for (i=0; i<inputs.length; i++) {
-          inputs[i].addEventListener("change", handleInputChange);
-        }
-        variableContent.addEventListener("click", handleLinkClick);
-        newGameLink.addEventListener("click", getNextBoard);
+      function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+          var context = this, args = arguments;
+          var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+          };
+          var callNow = immediate && !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) func.apply(context, args);
+        };
       }
 
-      function handleLinkClick(e) {
-        if (e.target && e.target.nodeName == "A") {
+      function bindEventHandlers() {
+        variableContent.addEventListener("click", handleClick);
+      }
+
+      function handleClick(e) {
+        if (!e.target) {
+          return;
+        }
+        var nodeName = e.target.nodeName
+        if (nodeName == "A") {
           e.preventDefault();
           getNextBoard(e);
+        } else if (nodeName == "INPUT") {
+          handleInputChange(e);
         }
       }
 
-      function handleInputChange() {
-        var name = this.getAttribute("name");
-        var value = this.getAttribute("value");
+      function handleInputChange(e) {
+        var name = e.target.getAttribute("name");
+        var value = e.target .getAttribute("value");
         updateLink(name, value);
       }
 
@@ -186,8 +202,6 @@
 
       function getNextBoard(e) {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', e.target.getAttribute("href"));
-
         xhr.onreadystatechange = function() {
           var DONE = 4;
           if (xhr.readyState === DONE && xhr.status === 200) {
@@ -196,6 +210,7 @@
           }
         }
 
+        xhr.open('GET', e.target.getAttribute("href"));
         xhr.send(null);
       }
 
