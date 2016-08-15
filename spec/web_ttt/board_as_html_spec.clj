@@ -43,5 +43,11 @@
   (it "includes the phrase \"Cat's Game\" in the response for a tied game"
     (should-contain "Cat's Game" (render-alert board-with-cats-game false)))
 
+  (it "includes a link to play a new game in the response for a tied game"
+    (should-contain "<a href=\"/\">" (render-alert board-with-cats-game false)))
+
   (it "includes the phrase \"Player x won\" in the response for a game won by player x"
-    (should-contain "Player x won" (render-alert board-won-by-x false))))
+    (should-contain "Player x won" (render-alert board-won-by-x false)))
+
+  (it "includes a link to play a new game in the response for a game with a winner"
+    (should-contain "<a href=\"/\">" (render-alert board-won-by-x false))))

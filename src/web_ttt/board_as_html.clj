@@ -5,6 +5,8 @@
 
 (def empty-space "__")
 
+(def play-again-link (hiccup/html [:a {:href "/"} "Do you want to play again?"]))
+
 (defn- generate-path-for-link
   [board space marker]
   (str "/make-move?space=" space "&" "marker=" marker))
@@ -45,11 +47,11 @@
 (defn- render-game-in-progress-computers-turn []
   (hiccup/html [:a {:class "computer-move" :href "/computer-move"} "Get Computer Move"]))
 
-(defn- render-cats-game [] (hiccup/html [:p {:class "alert"} "Game Over - Cat's Game"]))
+(defn- render-cats-game [] (hiccup/html [:p {:class "alert"} (str "Game Over - Cat's Game" play-again-link)]))
 
 (defn- render-game-over-with-winner
   [winner]
-  (hiccup/html [:p {:class "alert"} "Game Over - Player " winner " won"]))
+  (hiccup/html [:p {:class "alert"} (str "Game Over - Player " winner " won" play-again-link)]))
 
 (defn render-alert
   [board turn]
