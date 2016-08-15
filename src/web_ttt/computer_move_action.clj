@@ -24,4 +24,4 @@
       (make-move)
       (.setStatus response 200)
       (.addHeader response "Content-Type" "text/html; charset=utf-8")
-      (.setBody response (.getBytes (board-as-html/generate-html-response (board-state/get-board) (board-state/get-human-marker) false))))))
+      (.setBody response (.getBytes (board-as-html/generate-html-response (board-state/get-board) (board-state/get-human-marker) :humans-turn))))))

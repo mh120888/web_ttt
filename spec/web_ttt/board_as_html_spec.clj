@@ -29,16 +29,16 @@
 
 (describe "#render-alert"
   (it "returns a link to get computer move for an empty board when the computer player goes first"
-    (should-contain "Get Computer Move" (render-alert empty-board true)))
+    (should-contain "Get Computer Move" (render-alert empty-board :computers-turn)))
 
   (it "returns an empty string for an empty board when the computer player goes second"
-    (should= "" (render-alert empty-board false)))
+    (should= "" (render-alert empty-board :humans-turn)))
 
   (it "returns a link to get computer move for a game that is not yet over (no winner, no tie)"
-    (should-contain "Get Computer Move" (render-alert board-in-progress true)))
+    (should-contain "Get Computer Move" (render-alert board-in-progress :computers-turn)))
 
   (it "returns an empty string for a board in progress when it is not the computer's turn"
-    (should= "" (render-alert board-in-progress false)))
+    (should= "" (render-alert board-in-progress :humans-turn)))
 
   (it "includes the phrase \"Cat's Game\" in the response for a tied game"
     (should-contain "Cat's Game" (render-alert board-with-cats-game false)))

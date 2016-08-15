@@ -34,6 +34,6 @@
           (.setHTTPVersion response "HTTP/1.1")
           (.setStatus response 200)
           (.addHeader response "Content-Type" "text/html; charset=utf-8")
-          (.setBody response (.getBytes (board-as-html/generate-html-response next-board (board-state/get-human-marker) true)))))
+          (.setBody response (.getBytes (board-as-html/generate-html-response next-board (board-state/get-human-marker) :computers-turn)))))
       [{"space" _, "marker" _}] (.setStatus response 403)
       [_] (.setStatus response 422))))
