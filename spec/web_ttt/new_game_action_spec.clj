@@ -1,24 +1,51 @@
 (ns web-ttt.new-game-action-spec
   (:require [speclj.core :refer :all]
+    [matts-clojure-ttt.board :as board]
+    [web-ttt.board-state :as board-state]
     [web-ttt.core :as core]
     [web-ttt.new-game-action :refer :all]))
 
-(describe "#get-response"
+(describe "NewGameAction#get-response"
   (before-all
     (def request (.getNewRequest core/message-factory))
     (def response (.getNewResponse core/message-factory)))
 
   (context "with correct parameters"
     (before-all
+      (board-state/update-board {})
+      (board-state/set-turn "")
       (.setRequestLine request "GET /new-game?marker=o&gofirst=y&size=3 HTTP/1.1")
       (get-response request response)
       (def app-response (.getFormattedResponse response)))
 
-    (it "returns a response with a status of 200"
-      (should-contain "200" app-response))
+    (context "human chooses to go first"
+      (it "returns a response with a status of 200"
+          (should-contain "200" app-response))
 
-    (it "contains an empty board in the response"
-      (should-contain (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" "") app-response)))
+        (it "returns a response that does not contain a link to get computer move"
+          (should-not-contain "/computer-move" app-response))
+
+        (it "sets the board state to a board of the appropriate size"
+          (should= (board/generate-new-board 3) (board-state/get-board)))
+
+        (it "sets the current player to the human player"
+          (should= "o" (board-state/get-current-player)))
+
+        (it "sets the human marker to the chosen marker"
+          (should= "o" (board-state/get-human-marker))))
+
+    (context "human chooses to go second"
+     (it "sets the current player to the opponent if human chose to go second"
+          (.setRequestLine request "GET /new-game?marker=o&gofirst=n&size=3 HTTP/1.1")
+          (get-response request response)
+          (def app-response (.getFormattedResponse response))
+          (should= "x" (board-state/get-current-player)))
+
+        (it "returns a response that does contain a link to get computer move"
+          (should-contain "/computer-move" app-response))
+
+        (it "contains an empty board in the response"
+          (should-contain (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" "") app-response))))
 
   (it "returns a response with a 4x4 empty board when the 4x4 board size option is chosen"
     (.setRequestLine request "GET /new-game?marker=o&gofirst=y&size=4 HTTP/1.1")

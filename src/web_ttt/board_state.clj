@@ -1,10 +1,31 @@
-(ns web-ttt.board-state)
+(ns web-ttt.board-state
+  (:require [matts-clojure-ttt.board :as board]))
+
+(def board-turn (atom ""))
+
+(defn change-turn
+  []
+  (swap! board-turn board/get-other-marker))
+
+(defn set-turn
+  [marker]
+  (reset! board-turn marker))
+
+(def human-marker (atom ""))
+
+(defn set-human-marker
+  [marker]
+  (reset! human-marker marker))
+
+(defn get-human-marker
+  []
+  @human-marker)
+
+(defn get-current-player
+  []
+  @board-turn)
 
 (def board-state (atom {}))
-
-(defn- update-board-state-atom
-  [collection-of-boards new-board]
-  (conj collection-of-boards new-board))
 
 (defn update-board
   [board]

@@ -6,7 +6,8 @@
   <style type="text/css">
   body {
     font-family: "Helvetica", Arial, sans-serif;
-    color: #333;
+    color: #666;
+    font-weight: 300;
   }
 
   main {
@@ -21,30 +22,53 @@
 
   header h1 {
     margin: 0 auto;
+    font-weight: 300;
   }
 
   fieldset {
     border: double 4px;
     padding: 1em;
+    padding-bottom: 1.6em;
     line-height: 2;
   }
 
   fieldset legend {
     padding: 0 .5em;
+    font-size: .88em;
+    text-transform: uppercase;
   }
 
   fieldset p {
     margin: 0 auto;
+    font-style: italic;
+    font-size: .88em;
+  }
+
+  fieldset label + p {
+    margin-top: 1.5em;
   }
 
   fieldset a {
-    display: table;
+    display: block;
     text-align: center;
-    margin: 0 auto;
+    margin: 1.5em auto 0;
+    background-color: #666;
+    color: #FFF;
+    text-decoration: none;
+    padding: .5em;
+  }
+
+  fieldset a:hover {
+    background-color: lightblue;
+    color: #666;
   }
 
   #variable-content {
     text-align: center;
+  }
+
+  #variable-content > p {
+    font-style: italic;
   }
 
   #board {
@@ -53,7 +77,7 @@
 
   .space {
     display: inline-block;
-    margin: .4em .2em;
+    margin: .15em .05em;
     width: 3em;
     height: 3em;
   }
@@ -61,24 +85,45 @@
   .space a, .space .marker {
     display: block;
     padding: 1em;
+    border: solid 1px #666;
   }
 
   .space a {
-    background-color: #eee;
+    color: lightblue;
   }
 
   .space a:hover {
-    background-color: lightblue;
+    background-color: #eee;
+  }
+
+  .row:first-child a, .row:first-child .marker {
+    border-top: none;
+  }
+
+  .row:last-child a, .row:last-child .marker {
+    border-bottom: none;
+  }
+
+  .space:first-child a, .space:first-child .marker {
+    border-left: none;
+  }
+
+  .space:last-child a, .space:last-child .marker {
+    border-right: none;
   }
 
   .space .marker {
-    background-color: #ddd;
+    /*background-color: #eee;*/
   }
 
   .alert {
     margin: 2em auto;
     padding: 1em;
     border: double 4px #666;
+  }
+
+  .computer-move {
+    display: none;
   }
 
   </style>
@@ -108,26 +153,43 @@
     var newGameSetupBehavior = (function() {
 
       var newGameLink = document.querySelector(".new-game-link");
-      var inputs = document.querySelectorAll("input");
       var variableContent = document.getElementById("variable-content");
 
+      function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+          var context = this, args = arguments;
+          var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+          };
+          var callNow = immediate && !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) func.apply(context, args);
+        };
+      }
+
       function bindEventHandlers() {
-        for (i=0; i<inputs.length; i++) {
-          inputs[i].addEventListener("change", handleInputChange);
-        }
-        variableContent.addEventListener("click", handleLinkClick);
-        newGameLink.addEventListener("click", getNextBoard);
+        variableContent.addEventListener("click", handleClick);
       }
 
-      function handleLinkClick(e) {
-        if (e.target && e.target.nodeName == "A") {
+      function handleClick(e) {
+        if (!e.target) {
+          return;
+        }
+        var nodeName = e.target.nodeName
+        if (nodeName == "A") {
+          e.preventDefault();
           getNextBoard(e);
+        } else if (nodeName == "INPUT") {
+          handleInputChange(e);
         }
       }
 
-      function handleInputChange() {
-        var name = this.getAttribute("name");
-        var value = this.getAttribute("value");
+      function handleInputChange(e) {
+        var name = e.target.getAttribute("name");
+        var value = e.target .getAttribute("value");
         updateLink(name, value);
       }
 
@@ -139,18 +201,24 @@
       }
 
       function getNextBoard(e) {
-        e.preventDefault();
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', e.target.getAttribute("href"));
-
         xhr.onreadystatechange = function() {
           var DONE = 4;
           if (xhr.readyState === DONE && xhr.status === 200) {
             variableContent.innerHTML = (xhr.responseText);
+            setTimeout(getComputerMove, 750);
           }
         }
 
+        xhr.open('GET', e.target.getAttribute("href"));
         xhr.send(null);
+      }
+
+      function getComputerMove() {
+        var getComputerMoveLink = document.querySelector(".computer-move");
+        if (getComputerMoveLink) {
+          getComputerMoveLink.click();
+        }
       }
 
       return {

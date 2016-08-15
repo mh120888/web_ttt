@@ -5,6 +5,7 @@
    [web_ttt.action MethodNotAllowedAction]
    [web_ttt.action NewGameAction]
    [web_ttt.action MakeMoveAction]
+   [web_ttt.action ComputerMoveAction]
    [web_ttt.action NotFoundAction]))
 
 (defn route-and-return-action [method path]
@@ -13,4 +14,5 @@
     [_ "/"] (action/MethodNotAllowedAction.)
     ["GET", "/new-game"] (action/NewGameAction.)
     ["GET", "/make-move"] (action/MakeMoveAction.)
+    ["GET", "/computer-move"] (action/ComputerMoveAction.)
     [_ _] (action/NotFoundAction.)))

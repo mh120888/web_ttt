@@ -40,16 +40,28 @@
       (for [row (range 0 num-of-rows)]
         (render-row board row num-of-rows marker winner))])))
 
+(defn- render-game-in-progress-humans-turn [] "")
+
+(defn- render-game-in-progress-computers-turn []
+  (hiccup/html [:a {:class "computer-move" :href "/computer-move"} "Get Computer Move"]))
+
+(defn- render-cats-game [] (hiccup/html [:p {:class "alert"} "Game Over - Cat's Game"]))
+
+(defn- render-game-over-with-winner
+  [winner]
+  (hiccup/html [:p {:class "alert"} "Game Over - Player " winner " won"]))
+
 (defn render-alert
-  [board]
+  [board turn]
   (let [winner (board/get-winner board)]
     (cond
-      (not (nil? winner)) (hiccup/html [:p {:class "alert"} "Game Over - Player " winner " won"])
-      (board/board-full? board) (hiccup/html [:p {:class "alert"} "Game Over - Cat's Game"])
-      :else "")))
+      winner (render-game-over-with-winner winner)
+      (board/board-full? board) (render-cats-game)
+      (= turn :computers-turn) (render-game-in-progress-computers-turn)
+      :else (render-game-in-progress-humans-turn))))
 
 (defn generate-html-response
-  [board marker]
+  [board marker turn]
   (let [board-as-html (render-board board marker)
-        alert-message (render-alert board)]
+        alert-message (render-alert board turn)]
     (str board-as-html alert-message)))

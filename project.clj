@@ -10,6 +10,7 @@
                  [com.github.mh120888/javaserver "1.0-SNAPSHOT"]]
   :plugins [[speclj "3.3.0"]
             [org.clojars.punkisdead/lein-cucumber "1.0.7"]]
+  :repositories {"sonatype snapshots" "https://oss.sonatype.org/content/repositories/snapshots"}
   :test-paths ["spec"]
   :cucumber-feature-paths ["features"]
   :main ^:skip-aot web-ttt.core
