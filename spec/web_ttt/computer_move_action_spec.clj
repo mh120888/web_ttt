@@ -22,6 +22,9 @@
       (it "returns a response with a status of 200"
         (should-contain "200" (.getFormattedResponse response)))
 
+      (it "returns a response that does not contain a link to get next computer move"
+        (should-not-contain "/computer-move" (.getFormattedResponse response)))
+
       (it "switches the current player to the human"
         (should= (board-state/get-human-marker) (board-state/get-current-player)))
 

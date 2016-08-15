@@ -41,15 +41,16 @@
         (render-row board row num-of-rows marker winner))])))
 
 (defn render-alert
-  [board]
+  [board computer-plays-next]
   (let [winner (board/get-winner board)]
     (cond
-      (not (nil? winner)) (hiccup/html [:p {:class "alert"} "Game Over - Player " winner " won"])
+      winner (hiccup/html [:p {:class "alert"} "Game Over - Player " winner " won"])
       (board/board-full? board) (hiccup/html [:p {:class "alert"} "Game Over - Cat's Game"])
-      :else (hiccup/html [:a {:class "computer-move" :href "/computer-move"} "Get Computer Move"]))))
+      computer-plays-next (hiccup/html [:a {:class "computer-move" :href "/computer-move"} "Get Computer Move"])
+      :else (hiccup/html ""))))
 
 (defn generate-html-response
-  [board marker]
+  [board marker computer-plays-next]
   (let [board-as-html (render-board board marker)
-        alert-message (render-alert board)]
+        alert-message (render-alert board computer-plays-next)]
     (str board-as-html alert-message)))

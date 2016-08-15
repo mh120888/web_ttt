@@ -22,5 +22,5 @@
         (set-current-turn-and-human-marker (get params "gofirst") (get params "marker"))
         (.setStatus response 200)
         (.addHeader response "Content-Type" "text/html; charset=utf-8")
-        (.setBody response (.getBytes (str (board-as-html/generate-html-response (board-state/get-board) (get params "marker")) "<p>Let's play a game of tic tac toe</p>"))))
+        (.setBody response (.getBytes (str (board-as-html/generate-html-response (board-state/get-board) (get params "marker") (= "n" (get params "gofirst"))) "<p>Let's play a game of tic tac toe</p>"))))
       [_] (.setStatus response 422))))
