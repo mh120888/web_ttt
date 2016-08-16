@@ -1,5 +1,6 @@
 (ns web-ttt.action
   (:require [web-ttt.new-game-action :as new-game-action]
+    [web-ttt.response-helper :refer :all]
     [web-ttt.make-move-action :as make-move-action]
     [web-ttt.computer-move-action :as computer-move-action]
     [matts-clojure-ttt.board :as board]
@@ -13,18 +14,17 @@
   Action
   (get-response [type request response]
     (do
-      (.setStatus response 200)
-      (.setHTTPVersion response "HTTP/1.1")
+      (set-response-to 200 response)
       (.addHeader response "Content-Type" "text/html; charset=utf-8")
       (.setBody response (.getBytes (slurp "resources/index.html"))))))
 
 (deftype MethodNotAllowedAction []
   Action
-  (get-response [type request response] (.setStatus response 405)))
+  (get-response [type request response] (set-response-to 405 response)))
 
 (deftype NotFoundAction []
   Action
-  (get-response [type request response] (.setStatus response 404)))
+  (get-response [type request response] (set-response-to 404 response)))
 
 (deftype NewGameAction []
   Action
