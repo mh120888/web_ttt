@@ -1,4 +1,5 @@
 (require '[web-ttt.core :refer :all]
+  '[web-ttt.action-spec :as action-spec]
   '[matts-clojure-ttt.board :as board]
   '[speclj.core :refer :all]
   '[web-ttt.board-state :as board-state]
@@ -8,11 +9,6 @@
 (def new-response (.getNewResponse message-factory))
 (def empty-board-3 (clojure.string/replace (slurp "resources/_empty_board_3.html") #"\s\s+" ""))
 (def empty-board-4 (clojure.string/replace (slurp "resources/_empty_board_4.html") #"\s\s+" ""))
-
-(defn marked-space-html
-  [space marker]
-  (hiccup/html [:span {:class "space" :data-space space}
-    [:span {:class "marker"} marker]]))
 
 (defn generate-board-state
   [board space moves-left-to-play]
@@ -67,10 +63,10 @@
     (should-contain empty-board-4 app-response)))
 
 (Then #"^the response should contain a board with space (\d+) taken by (\w+)$" [space marker]
-  (should-contain (marked-space-html space marker) app-response))
+  (should-contain (action-spec/marked-space-html space marker) app-response))
 
 (Then #"^space (\d+) is not available to be played on again$" [space]
-  (should-contain (marked-space-html space marker) app-response)
+  (should-contain (action-spec/marked-space-html space marker) app-response)
   (should-not-contain (str "/make-move?space=" space) app-response))
 
 (Then #"^the response should contain the text \"([^\"]*)\"$" [text]
