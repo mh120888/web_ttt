@@ -52,4 +52,24 @@
     (def response (.getNewResponse core/message-factory))
     (.setRequestLine request "GET /make-move?space=1 HTTP/1.1")
     (get-response request response)
-    (should-contain "422" (.getFormattedResponse response))))
+    (should-contain "422" (.getFormattedResponse response)))
+
+  (it "returns a 403 if a user tries to play on an already taken space"
+    (def board-in-progress {0 {:marked "x"}, 1{}, 2{}, 3{}, 4 {:marked "o"}, 5{}, 6{}, 7{}, 8{}})
+    (board-state/update-board board-in-progress)
+    (board-state/set-turn "x")
+    (def request (.getNewRequest core/message-factory))
+    (def response (.getNewResponse core/message-factory))
+    (.setRequestLine request "GET /make-move?space=0&marker=x HTTP/1.1")
+    (get-response request response)
+    (should-contain "403" (.getFormattedResponse response)))
+
+  (it "returns a 403 if a user tries to play on a space that isn't on the board"
+    (def board-in-progress {0 {:marked "x"}, 1{}, 2{}, 3{}, 4 {:marked "o"}, 5{}, 6{}, 7{}, 8{}})
+    (board-state/update-board board-in-progress)
+    (board-state/set-turn "x")
+    (def request (.getNewRequest core/message-factory))
+    (def response (.getNewResponse core/message-factory))
+    (.setRequestLine request "GET /make-move?space=100&marker=x HTTP/1.1")
+    (get-response request response)
+    (should-contain "403" (.getFormattedResponse response))))
