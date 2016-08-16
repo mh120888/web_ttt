@@ -48,7 +48,7 @@
     margin-top: 1.5em;
   }
 
-  fieldset a {
+  fieldset a, .alert a {
     display: block;
     text-align: center;
     margin: 1.5em auto 0;
@@ -58,7 +58,7 @@
     padding: .5em;
   }
 
-  fieldset a:hover {
+  fieldset a:hover, .alert a:hover {
     background-color: lightblue;
     color: #666;
   }
@@ -122,6 +122,10 @@
     border: double 4px #666;
   }
 
+  .alert a {
+    margin: .5em 0 0 0;
+  }
+
   .computer-move {
     display: none;
   }
@@ -130,10 +134,10 @@
 </head>
 <body>
   <main>
-    <header>
-      <h1>Clojure Tic Tac Toe</h1>
-    </header>
     <div id='variable-content'>
+      <header>
+        <h1>Clojure Tic Tac Toe</h1>
+      </header>
       <p>Do you want to play a game?</p>
       <fieldset>
         <legend>Game Options</legend>
