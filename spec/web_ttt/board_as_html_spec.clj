@@ -17,7 +17,7 @@
       (should= (str/replace (slurp "resources/_empty_board_3.html") #"\s\s+" "") rendered-empty-board))
 
     (it "shows space 0 is playable by player o"
-      (should-contain "<span class=\"space\" data-space=\"0\"><a href=\"/make-move?space=0&marker=o" rendered-empty-board)))
+      (should-contain "<span class=\"space\"><a href=\"/make-move?space=0&marker=o" rendered-empty-board)))
 
   (context "when given a board where player o has played on space 0"
     (it "returns a board with space 0 marked with o"

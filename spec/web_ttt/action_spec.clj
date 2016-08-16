@@ -11,7 +11,7 @@
 
 (defn marked-space-html
   [space marker]
-  (hiccup/html [:span {:class "space" :data-space space}
+  (hiccup/html [:span {:class "space"}
     [:span {:class "marker"} marker]]))
 
 (describe "MethodNotAllowedAction#get-response"

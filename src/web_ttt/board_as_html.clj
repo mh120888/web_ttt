@@ -21,7 +21,7 @@
 
 (defn render-space
   [board space marker winner]
-  (hiccup/html [:span {:class "space" :data-space space}
+  (hiccup/html [:span {:class "space"}
     (if (board/space-free? board space)
       (render-open-space board space marker winner)
       (render-taken-space board space))]))
