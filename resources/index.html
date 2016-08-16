@@ -156,7 +156,6 @@
     <script>
     var newGameSetupBehavior = (function() {
 
-      var newGameLink = document.querySelector(".new-game-link");
       var variableContent = document.getElementById("variable-content");
 
       function debounce(func, wait, immediate) {
@@ -185,7 +184,7 @@
         var nodeName = e.target.nodeName
         if (nodeName == "A") {
           e.preventDefault();
-          getNextBoard(e);
+          getNextBoard(e, 1000);
         } else if (nodeName == "INPUT") {
           handleInputChange(e);
         }
@@ -198,19 +197,20 @@
       }
 
       function updateLink(name, value) {
+        var newGameLink = document.querySelector(".new-game-link");
         var path = newGameLink.getAttribute("href");
         var regex = new RegExp(name + "=.");
         var newPath = path.replace(regex, name + "=" + value);
         newGameLink.setAttribute("href", newPath);
       }
 
-      function getNextBoard(e) {
+      function getNextBoard(e, delayBeforeMove) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
           var DONE = 4;
           if (xhr.readyState === DONE && xhr.status === 200) {
             variableContent.innerHTML = (xhr.responseText);
-            setTimeout(getComputerMove, 750);
+            setTimeout(getComputerMove, delayBeforeMove);
           }
         }
 
