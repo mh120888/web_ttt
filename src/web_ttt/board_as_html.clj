@@ -5,8 +5,6 @@
 
 (def empty-space "__")
 
-(def play-again-link (hiccup/html [:a {:href "/"} "Do you want to play again?"]))
-
 (defn- generate-path-for-link
   [board space marker]
   (str "/make-move?space=" space "&" "marker=" marker))
@@ -41,6 +39,8 @@
     (hiccup/html [:div {:id "board"}
       (for [row (range 0 num-of-rows)]
         (render-row board row num-of-rows marker winner))])))
+
+(def play-again-link (hiccup/html [:a {:href "/"} "Do you want to play again?"]))
 
 (defn- render-game-in-progress-humans-turn [] "")
 
